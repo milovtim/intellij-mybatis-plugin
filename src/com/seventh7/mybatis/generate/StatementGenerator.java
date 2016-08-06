@@ -115,7 +115,7 @@ public abstract class StatementGenerator {
         PsiClass psiClass = method.getContainingClass();
         if (null == psiClass) return;
         CommonProcessors.CollectProcessor<Mapper> processor = new CommonProcessors.CollectProcessor<Mapper>();
-        JavaService.getInstance(method.getProject()).process(psiClass, processor);
+        JavaService.getInstance(method.getProject()).processPsiClass(psiClass, processor);
         final List<Mapper> mappers = Lists.newArrayList(processor.getResults());
         if (1 == mappers.size()) {
             setupTag(method, Iterables.getOnlyElement(mappers, null));

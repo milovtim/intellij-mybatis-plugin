@@ -1,8 +1,8 @@
 package com.seventh7.mybatis.action;
 
+import com.intellij.codeInsight.AutoPopupController;
 import com.intellij.codeInsight.completion.CodeCompletionHandlerBase;
 import com.intellij.codeInsight.completion.CompletionType;
-import com.intellij.codeInsight.editorActions.CompletionAutoPopupHandler;
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
@@ -44,14 +44,12 @@ public class MybatisTypedHandler extends TypedHandlerDelegate {
     }
 
     private static void autoPopupParameter(final Project project, final Editor editor) {
-        CompletionAutoPopupHandler.runLaterWithCommitted(project, editor.getDocument(), new Runnable() {
-            @Override
-            public void run() {
-                if (PsiDocumentManager.getInstance(project).isCommitted(editor.getDocument())) {
-                    new CodeCompletionHandlerBase(CompletionType.BASIC).invokeCompletion(project, editor, 1);
+        AutoPopupController.runTransactionWithEverythingCommitted(project, () -> {
+                    if (PsiDocumentManager.getInstance(project).isCommitted(editor.getDocument())) {
+                        new CodeCompletionHandlerBase(CompletionType.BASIC).invokeCompletion(project, editor, 1);
+                    }
                 }
-            }
-        });
+        );
     }
 
 }

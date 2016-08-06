@@ -64,6 +64,11 @@ public final class JavaUtils {
         return Optional.fromNullable(JavaPsiFacade.getInstance(project).findClass(clazzName, GlobalSearchScope.allScope(project)));
     }
 
+    @Nullable
+    public static PsiClass findClazzOrNull(@NotNull Project project, @NotNull String clazzName) {
+        return JavaPsiFacade.getInstance(project).findClass(clazzName, GlobalSearchScope.allScope(project));
+    }
+
     @NotNull
     public static Optional<PsiMethod> findMethod(@NotNull Project project, @Nullable String clazzName, @Nullable String methodName) {
         if (StringUtils.isBlank(clazzName) && StringUtils.isBlank(methodName)) {

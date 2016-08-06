@@ -63,7 +63,7 @@ public class MybatisSetting implements PersistentStateComponent<Element> {
     private void loadState(Element state, StatementGenerator generator) {
         String attribute = state.getAttributeValue(generator.getId());
         if (null != attribute) {
-            generator.setPatterns((Set<String>) gson.fromJson(attribute, gsonTypeToken));
+            generator.setPatterns(gson.fromJson(attribute, gsonTypeToken));
         }
     }
 
