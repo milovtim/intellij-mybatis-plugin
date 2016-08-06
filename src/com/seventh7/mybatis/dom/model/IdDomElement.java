@@ -1,20 +1,16 @@
 package com.seventh7.mybatis.dom.model;
 
-import com.intellij.util.xml.Attribute;
-import com.intellij.util.xml.DomElement;
-import com.intellij.util.xml.GenericAttributeValue;
-import com.intellij.util.xml.NameValue;
-import com.intellij.util.xml.Required;
+import com.intellij.util.xml.*;
 
 /**
  * @author yanglin
  */
-public interface IdDomElement extends DomElement{
+public interface IdDomElement extends DomElement {
 
-  @Required
-  @NameValue
-  @Attribute("id")
-  public GenericAttributeValue<String> getId();
+    @Required
+    @NameValue
+    @Attribute("id")
+    public GenericAttributeValue<String> getId();
 
-  public void setValue(String content);
+    public void setValue(String content);
 }
