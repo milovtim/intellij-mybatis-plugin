@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author yanglin
  */
+@SuppressWarnings("Guava")
 public class TestParamContributor extends CompletionContributor {
 
     @SuppressWarnings("unchecked")
@@ -30,7 +31,7 @@ public class TestParamContributor extends CompletionContributor {
                     @Override
                     protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
                         PsiElement position = parameters.getPosition();
-                        addElementForPsiParameter(position.getProject(), result, MapperUtils.findParentIdDomElement(position).orNull());
+                        addElementForPsiParameter(position.getProject(), result, MapperUtils.findParentIdDomElement(position).orElse(null));
                     }
                 });
     }

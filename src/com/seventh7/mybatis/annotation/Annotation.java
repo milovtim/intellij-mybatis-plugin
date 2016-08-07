@@ -112,8 +112,9 @@ public class Annotation implements Cloneable {
     }
 
     @NotNull
-    public Optional<PsiClass> toPsiClass(@NotNull Project project) {
-        return Optional.fromNullable(JavaPsiFacade.getInstance(project).findClass(getQualifiedName(), GlobalSearchScope.allScope(project)));
+    public java.util.Optional<PsiClass> toPsiClass(@NotNull Project project) {
+        return java.util.Optional.ofNullable(
+                JavaPsiFacade.getInstance(project).findClass(getQualifiedName(), GlobalSearchScope.allScope(project)));
     }
 
     private Optional<String> getSingleValue() {

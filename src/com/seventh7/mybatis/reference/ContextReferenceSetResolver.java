@@ -15,6 +15,7 @@ import java.util.List;
 /**
  * @author yanglin
  */
+@SuppressWarnings("Guava")
 public abstract class ContextReferenceSetResolver<F extends PsiElement, K extends PsiElement> {
 
     private static final Splitter SPLITTER = Splitter.on(MybatisConstants.DOT_SEPARATOR);
@@ -23,18 +24,22 @@ public abstract class ContextReferenceSetResolver<F extends PsiElement, K extend
 
     protected F element;
 
-    protected List<String> texts;
+    private List<String> texts;
 
-    protected ContextReferenceSetResolver(@NotNull F element) {
+    ContextReferenceSetResolver(@NotNull F element) {
         this.element = element;
         this.project = element.getProject();
         this.texts = Lists.newArrayList(SPLITTER.split(getText()));
     }
 
     @NotNull
-    public final Optional<? extends PsiElement> resolve(int index) {
+    final Optional<? extends PsiElement> resolve(int index) {
         Optional<K> startElement = getStartElement();
-        return startElement.isPresent() ? (texts.size() > 1 ? parseNext(startElement, texts, index) : startElement) : Optional.<PsiElement>absent();
+        return startElement.isPresent() ?
+                (texts.size() > 1 ?
+                        parseNext(startElement, texts, index) :
+                        startElement) :
+                Optional.absent();
     }
 
     private Optional<K> parseNext(Optional<K> current, List<String> texts, int index) {
@@ -50,7 +55,7 @@ public abstract class ContextReferenceSetResolver<F extends PsiElement, K extend
         return current;
     }
 
-    public Optional<K> getStartElement() {
+    private Optional<K> getStartElement() {
         return getStartElement(Iterables.getFirst(texts, null));
     }
 

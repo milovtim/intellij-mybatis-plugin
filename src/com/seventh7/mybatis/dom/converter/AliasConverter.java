@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author yanglin
  */
-public class AliasConverter extends ConverterAdaptor<PsiClass> implements CustomReferenceConverter<PsiClass> {
+public class AliasConverter extends ConverterAdapter<PsiClass> implements CustomReferenceConverter<PsiClass> {
 
     private PsiClassConverter delegate = new PsiClassConverter();
 

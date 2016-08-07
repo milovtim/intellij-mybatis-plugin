@@ -14,16 +14,18 @@ import com.seventh7.mybatis.util.MybatisConstants;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static java.util.Objects.nonNull;
+
 /**
  * @author yanglin
  */
 public class ContextPsiFieldReference extends PsiReferenceBase<XmlAttributeValue> {
 
-    protected ContextReferenceSetResolver resolver;
+    private ContextReferenceSetResolver resolver;
 
-    protected int index;
+    private int index;
 
-    public ContextPsiFieldReference(XmlAttributeValue element, TextRange range, int index) {
+    ContextPsiFieldReference(XmlAttributeValue element, TextRange range, int index) {
         super(element, range, false);
         this.index = index;
         resolver = ReferenceSetResolverFactory.createPsiFieldResolver(element);
@@ -40,37 +42,21 @@ public class ContextPsiFieldReference extends PsiReferenceBase<XmlAttributeValue
     @NotNull
     @Override
     public Object[] getVariants() {
-        Optional<PsiClass> clazz = getTargetClazz();
-        return clazz.isPresent() ? JavaUtils.findSettablePsiFields(clazz.get()) : PsiReference.EMPTY_ARRAY;
+        PsiClass clazz = getTargetClazz();
+        return nonNull(clazz) ? JavaUtils.findSettablePsiFields(clazz) : PsiReference.EMPTY_ARRAY;
     }
 
     @SuppressWarnings("unchecked")
-    private Optional<PsiClass> getTargetClazz() {
+    private PsiClass getTargetClazz() {
         if (getElement().getValue().contains(MybatisConstants.DOT_SEPARATOR)) {
             int ind = 0 == index ? 0 : index - 1;
             Optional<PsiElement> resolved = resolver.resolve(ind);
             if (resolved.isPresent()) {
-                return JavaService.getInstance(myElement.getProject()).getReferenceClazzOfPsiField(resolved.get());
+                return JavaService.getInstance(myElement.getProject()).getReferenceClazzOfPsiField(resolved.get()).orNull();
             }
         } else {
             return MapperBacktrackingUtils.getPropertyClazz(myElement);
         }
-        return Optional.absent();
-    }
-
-    public ContextReferenceSetResolver getResolver() {
-        return resolver;
-    }
-
-    public void setResolver(ContextReferenceSetResolver resolver) {
-        this.resolver = resolver;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
+        return null;
     }
 }

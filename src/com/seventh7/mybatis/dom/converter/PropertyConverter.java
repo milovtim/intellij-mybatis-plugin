@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author yanglin
  */
-public class PropertyConverter extends ConverterAdaptor<XmlAttributeValue> implements CustomReferenceConverter<XmlAttributeValue> {
+public class PropertyConverter extends ConverterAdapter<XmlAttributeValue> implements CustomReferenceConverter<XmlAttributeValue> {
 
     @NotNull
     @Override

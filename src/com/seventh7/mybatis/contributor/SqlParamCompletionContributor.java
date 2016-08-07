@@ -1,6 +1,5 @@
 package com.seventh7.mybatis.contributor;
 
-import com.google.common.base.Optional;
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionResultSet;
@@ -38,7 +37,8 @@ public class SqlParamCompletionContributor extends CompletionContributor {
         DocumentWindow documentWindow = InjectedLanguageUtil.getDocumentWindow(position);
         if (null != documentWindow) {
             int offset = documentWindow.injectedToHost(position.getTextOffset());
-            Optional<IdDomElement> idDomElement = MapperUtils.findParentIdDomElement(xmlFile.findElementAt(offset));
+            java.util.Optional<IdDomElement> idDomElement = MapperUtils.findParentIdDomElement(
+                    xmlFile.findElementAt(offset));
             if (idDomElement.isPresent()) {
                 TestParamContributor.addElementForPsiParameter(position.getProject(), result, idDomElement.get());
                 result.stopHere();
@@ -50,7 +50,9 @@ public class SqlParamCompletionContributor extends CompletionContributor {
         String text = file.getText();
         for (int i = offset - 1; i > 0; i--) {
             char c = text.charAt(i);
-            if (c == '{' && text.charAt(i - 1) == '#') return true;
+            if (c == '{' && text.charAt(i - 1) == '#') {
+                return true;
+            }
         }
         return false;
     }

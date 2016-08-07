@@ -1,8 +1,8 @@
 <idea-plugin version="2" url="https://github.com/seventh7/intellij-mybatis-plugin">
-    <id>com.seventh7.plugin.mybatis</id>
+    <id>ru.milovtim.plugin.mybatis</id>
     <name>MyBatis plugin</name>
     <version>2.01</version>
-    <vendor email="insist.day@gmail.com" url="https://github.com/seventh7">Yanglin</vendor>
+    <vendor email="milovtim@gmail.com" url="https://github.com/milovtim/intellij-mybatis-plugin">Yanglin</vendor>
 
     <description><![CDATA[
           Plugin for mybatis <br/>

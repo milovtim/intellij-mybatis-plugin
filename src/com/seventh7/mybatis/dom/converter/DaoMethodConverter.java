@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author yanglin
  */
-public class DaoMethodConverter extends ConverterAdaptor<PsiMethod> {
+public class DaoMethodConverter extends ConverterAdapter<PsiMethod> {
 
     @Nullable
     @Override

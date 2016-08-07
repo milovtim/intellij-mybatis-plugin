@@ -1,6 +1,5 @@
 package com.seventh7.mybatis.alias;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Sets;
 import com.intellij.openapi.project.Project;
@@ -15,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -22,17 +22,6 @@ import java.util.function.Function;
  * @author yanglin
  */
 public class AnnotationAliasResolver extends AliasResolver {
-
-    private static final Function<PsiClass, AliasDesc> FUN = psiClass -> {
-        java.util.Optional<String> txtOpt = JavaUtils.getAnnotationValueText_(psiClass, Annotation.ALIAS);
-        if (!txtOpt.isPresent()) {
-            return null;
-        }
-        AliasDesc ad = new AliasDesc();
-        ad.setAlias(txtOpt.get());
-        ad.setClazz(psiClass);
-        return ad;
-    };
 
     public AnnotationAliasResolver(Project project) {
         super(project);
@@ -45,10 +34,21 @@ public class AnnotationAliasResolver extends AliasResolver {
     @NotNull
     @Override
     public Set<AliasDesc> getClassAliasDescriptions(@Nullable PsiElement element) {
-        Optional<PsiClass> clazz = Annotation.ALIAS.toPsiClass(project);
-        if (clazz.isPresent()) {
-            Collection<PsiClass> res = AnnotatedElementsSearch.searchPsiClasses(clazz.get(), GlobalSearchScope.allScope(project)).findAll();
-            return Sets.newHashSet(Collections2.transform(res, FUN::apply));
+        java.util.Optional<PsiClass> classOpt = Annotation.ALIAS.toPsiClass(project);
+        if (classOpt.isPresent()) {
+            final Collection<PsiClass> res = AnnotatedElementsSearch.searchPsiClasses(classOpt.get(),
+                    GlobalSearchScope.allScope(project)).findAll();
+            final Collection<AliasDesc> aliasesDesc = Collections2.transform(res, psiClass -> {
+                Optional<String> txtOpt = JavaUtils.getAnnotationValueText_(psiClass, Annotation.ALIAS);
+                if (!txtOpt.isPresent()) {
+                    return null;
+                }
+                AliasDesc ad = new AliasDesc();
+                ad.setAlias(txtOpt.get());
+                ad.setClazz(psiClass);
+                return ad;
+            });
+            return Sets.newHashSet(aliasesDesc);
         }
         return Collections.emptySet();
     }

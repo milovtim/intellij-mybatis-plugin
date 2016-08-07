@@ -7,6 +7,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Objects;
 
 /**
  * @author yanglin
@@ -15,9 +17,10 @@ public class ParameterMapConverter extends IdBasedTagConverter {
 
     @NotNull
     @Override
-    public Collection<? extends IdDomElement> getComparisons(@Nullable Mapper mapper,
-                                                             ConvertContext context) {
-        return mapper.getParameterMaps();
+    public Collection<? extends IdDomElement> getComparisons(@Nullable Mapper mapper, ConvertContext context) {
+        return Objects.nonNull(mapper) ?
+                mapper.getParameterMaps() :
+                Collections.emptyList();
     }
 
 }

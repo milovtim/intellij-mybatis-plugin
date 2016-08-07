@@ -12,7 +12,7 @@ import java.util.Collections;
 /**
  * @author yanglin
  */
-public abstract class ConverterAdaptor<T> extends ResolvingConverter<T> {
+abstract class ConverterAdapter<T> extends ResolvingConverter<T> {
 
     @NotNull
     @Override
@@ -23,7 +23,6 @@ public abstract class ConverterAdaptor<T> extends ResolvingConverter<T> {
     @Nullable
     @Override
     public String toString(@Nullable T t, ConvertContext context) {
-//    throw new UnsupportedOperationException();
         return null;
     }
 

@@ -11,9 +11,12 @@ import com.seventh7.mybatis.util.JavaUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 /**
  * @author yanglin
  */
+@SuppressWarnings("Guava")
 public class PsiFieldReferenceSetResolver extends ContextReferenceSetResolver<XmlAttributeValue, PsiField> {
 
     protected PsiFieldReferenceSetResolver(XmlAttributeValue from) {
@@ -42,8 +45,8 @@ public class PsiFieldReferenceSetResolver extends ContextReferenceSetResolver<Xm
     @NotNull
     @Override
     public Optional<PsiField> getStartElement(@Nullable String firstText) {
-        Optional<PsiClass> clazz = MapperBacktrackingUtils.getPropertyClazz(getElement());
-        return clazz.isPresent() ? JavaUtils.findSettablePsiField(clazz.get(), firstText) : Optional.<PsiField>absent();
+        PsiClass clazz = MapperBacktrackingUtils.getPropertyClazz(getElement());
+        return Objects.nonNull(clazz) ? JavaUtils.findSettablePsiField(clazz, firstText) : Optional.absent();
     }
 
 }

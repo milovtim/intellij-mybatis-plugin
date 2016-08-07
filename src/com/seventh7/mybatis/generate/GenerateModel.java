@@ -1,6 +1,9 @@
 package com.seventh7.mybatis.generate;
 
+import com.google.common.primitives.Ints;
+
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * @author yanglin
@@ -9,16 +12,15 @@ public abstract class GenerateModel {
 
     public static final GenerateModel START_WITH_MODEL = new StartWithModel();
 
-    public static final GenerateModel END_WITH_MODEL = new EndWithModel();
+    private static final GenerateModel END_WITH_MODEL = new EndWithModel();
 
-    public static final GenerateModel CONTAIN_MODEL = new ContainModel();
+    private static final GenerateModel CONTAIN_MODEL = new ContainModel();
 
-    public static GenerateModel getInstance(String identifier) {
-        try {
-            return getInstance(Integer.valueOf(identifier));
-        } catch (Exception e) {
-            return START_WITH_MODEL;
-        }
+    public static GenerateModel getInstanceOrDefault(String identifier) {
+        Integer ident = Ints.tryParse(identifier);
+        return Objects.nonNull(ident) ?
+                getInstance(ident) :
+                START_WITH_MODEL;
     }
 
     public static GenerateModel getInstance(int identifier) {
@@ -34,7 +36,7 @@ public abstract class GenerateModel {
         }
     }
 
-    public boolean matchesAny(String[] patterns, String target) {
+    private boolean matchesAny(String[] patterns, String target) {
         for (String pattern : patterns) {
             if (apply(pattern, target)) {
                 return true;
@@ -43,7 +45,7 @@ public abstract class GenerateModel {
         return false;
     }
 
-    public boolean matchesAny(Collection<String> patterns, String target) {
+    boolean matchesAny(Collection<String> patterns, String target) {
         return matchesAny(patterns.toArray(new String[patterns.size()]), target);
     }
 
@@ -51,7 +53,7 @@ public abstract class GenerateModel {
 
     public abstract int getIdentifier();
 
-    static class StartWithModel extends GenerateModel {
+    private static class StartWithModel extends GenerateModel {
 
         @Override
         protected boolean apply(String pattern, String target) {
@@ -64,7 +66,7 @@ public abstract class GenerateModel {
         }
     }
 
-    static class EndWithModel extends GenerateModel {
+    private static class EndWithModel extends GenerateModel {
 
         @Override
         protected boolean apply(String pattern, String target) {
@@ -77,7 +79,7 @@ public abstract class GenerateModel {
         }
     }
 
-    static class ContainModel extends GenerateModel {
+    private static class ContainModel extends GenerateModel {
 
         @Override
         protected boolean apply(String pattern, String target) {

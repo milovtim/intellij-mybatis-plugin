@@ -57,7 +57,7 @@ public class MybatisSetting implements PersistentStateComponent<Element> {
         loadState(state, DELETE_GENERATOR);
         loadState(state, UPDATE_GENERATOR);
         loadState(state, SELECT_GENERATOR);
-        statementGenerateModel = GenerateModel.getInstance(state.getAttributeValue("statementGenerateModel"));
+        statementGenerateModel = GenerateModel.getInstanceOrDefault(state.getAttributeValue("statementGenerateModel"));
     }
 
     private void loadState(Element state, StatementGenerator generator) {

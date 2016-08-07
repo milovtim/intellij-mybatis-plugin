@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -56,7 +57,7 @@ public final class JavaUtils {
             return true;
         }
         PsiClass type = PsiTreeUtil.getParentOfType(element, PsiClass.class);
-        return Optional.fromNullable(type).isPresent() && type.isInterface();
+        return Objects.nonNull(type) && type.isInterface();
     }
 
     @NotNull

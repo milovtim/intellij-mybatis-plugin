@@ -5,7 +5,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiTypeParameterListOwner;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.util.Processor;
-import com.intellij.util.xml.DomElement;
 import com.seventh7.mybatis.service.JavaService;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,11 +20,11 @@ public class MapperDefinitionSearch extends QueryExecutorBase<XmlElement, PsiEle
 
     @Override
     public void processQuery(@NotNull PsiElement element, @NotNull final Processor<XmlElement> consumer) {
+        if (!(element instanceof PsiTypeParameterListOwner)) {
+            return;
+        }
 
-        if (!(element instanceof PsiTypeParameterListOwner)) return;
-
-        Processor<DomElement> processor = domElement -> consumer.process(domElement.getXmlElement());
-
-        JavaService.getInstance(element.getProject()).processPsiElement(element, processor);
+        JavaService.getInstance(element.getProject())
+                .processPsiElement(element, domElement -> consumer.process(domElement.getXmlElement()));
     }
 }

@@ -29,7 +29,7 @@ import java.util.Set;
 /**
  * @author yanglin
  */
-public abstract class IdBasedTagConverter extends ConverterAdaptor<XmlAttributeValue> implements CustomReferenceConverter<XmlAttributeValue> {
+public abstract class IdBasedTagConverter extends ConverterAdapter<XmlAttributeValue> implements CustomReferenceConverter<XmlAttributeValue> {
 
     private final boolean crossMapperSupported;
 

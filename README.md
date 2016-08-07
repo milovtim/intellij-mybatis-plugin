@@ -1,9 +1,8 @@
 #Download
 
-* http://plugins.jetbrains.com/plugin/7293
+A clone of plugin https://github.com/seventh7/intellij-mybatis-plugin which now is not free.
 
 # Features
-
 * Useful navigation between xml and mapper
 * Support generating of statement, @Param annotation and mapper of xml
 * Support some useful rename of mapper in xml
