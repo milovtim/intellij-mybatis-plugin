@@ -10,14 +10,13 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author yanglin
  */
-public class ResultTypeQuickFix extends GenericQuickFix {
+public class ResultTypeQuickFix extends GenericQuickFix<PsiClass> {
 
     private Select select;
-    private PsiClass target;
 
     public ResultTypeQuickFix(@NotNull Select select, @NotNull PsiClass target) {
+        super(target);
         this.select = select;
-        this.target = target;
     }
 
     @NotNull
@@ -29,24 +28,6 @@ public class ResultTypeQuickFix extends GenericQuickFix {
     @Override
     public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
         GenericAttributeValue<PsiClass> resultType = select.getResultType();
-        resultType.setValue(target);
-    }
-
-    @NotNull
-    public PsiClass getTarget() {
-        return target;
-    }
-
-    public void setTarget(@NotNull PsiClass target) {
-        this.target = target;
-    }
-
-    @NotNull
-    public Select getSelect() {
-        return select;
-    }
-
-    public void setSelect(@NotNull Select select) {
-        this.select = select;
+        resultType.setValue(getElement());
     }
 }
