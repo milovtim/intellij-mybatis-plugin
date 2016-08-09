@@ -21,6 +21,7 @@ import java.util.Set;
 /**
  * @author yanglin
  */
+@SuppressWarnings("Guava")
 public final class JavaUtils {
 
     private JavaUtils() {
@@ -34,7 +35,7 @@ public final class JavaUtils {
     @NotNull
     public static Optional<PsiField> findSettablePsiField(@NotNull PsiClass clazz, @Nullable String propertyName) {
         PsiMethod propertySetter = PropertyUtil.findPropertySetter(clazz, propertyName, false, true);
-        return null == propertySetter ? Optional.<PsiField>absent() : Optional.fromNullable(PropertyUtil.findPropertyFieldByMember(propertySetter));
+        return null == propertySetter ? Optional.absent() : Optional.fromNullable(PropertyUtil.findPropertyFieldByMember(propertySetter));
     }
 
     @NotNull
@@ -78,7 +79,7 @@ public final class JavaUtils {
         Optional<PsiClass> clazz = findClazz(project, clazzName);
         if (clazz.isPresent()) {
             PsiMethod[] methods = clazz.get().findMethodsByName(methodName, true);
-            return ArrayUtils.isEmpty(methods) ? Optional.<PsiMethod>absent() : Optional.of(methods[0]);
+            return ArrayUtils.isEmpty(methods) ? Optional.absent() : Optional.of(methods[0]);
         }
         return Optional.absent();
     }
@@ -96,7 +97,7 @@ public final class JavaUtils {
     @NotNull
     public static Optional<PsiAnnotation> getPsiAnnotation(@NotNull PsiModifierListOwner target, @NotNull Annotation annotation) {
         PsiModifierList modifierList = target.getModifierList();
-        return null == modifierList ? Optional.<PsiAnnotation>absent() : Optional.fromNullable(modifierList.findAnnotation(annotation.getQualifiedName()));
+        return null == modifierList ? Optional.absent() : Optional.fromNullable(modifierList.findAnnotation(annotation.getQualifiedName()));
     }
 
     @NotNull
@@ -107,7 +108,7 @@ public final class JavaUtils {
             return Optional.absent();
         }
         Optional<PsiAnnotation> psiAnnotation = getPsiAnnotation(target, annotation);
-        return psiAnnotation.isPresent() ? Optional.fromNullable(psiAnnotation.get().findAttributeValue(attrName)) : Optional.<PsiAnnotationMemberValue>absent();
+        return psiAnnotation.isPresent() ? Optional.fromNullable(psiAnnotation.get().findAttributeValue(attrName)) : Optional.absent();
     }
 
     @NotNull
@@ -117,7 +118,7 @@ public final class JavaUtils {
 
     public static Optional<String> getAnnotationValueText(@NotNull PsiModifierListOwner target, @NotNull Annotation annotation) {
         Optional<PsiAnnotationMemberValue> annotationValue = getAnnotationValue(target, annotation);
-        return annotationValue.isPresent() ? Optional.of(annotationValue.get().getText().replaceAll("\"", "")) : Optional.<String>absent();
+        return annotationValue.isPresent() ? Optional.of(annotationValue.get().getText().replaceAll("\"", "")) : Optional.absent();
     }
 
     public static java.util.Optional<String> getAnnotationValueText_(@NotNull PsiModifierListOwner target, @NotNull Annotation annotation) {
@@ -153,7 +154,7 @@ public final class JavaUtils {
         }
         PsiImportStatement[] statements = importList.getImportStatements();
         for (PsiImportStatement tmp : statements) {
-            if (null != tmp && tmp.getQualifiedName().equals(clazzName)) {
+            if (null != tmp && clazzName.equals(tmp.getQualifiedName())) {
                 return true;
             }
         }

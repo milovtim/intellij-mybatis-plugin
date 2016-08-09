@@ -1,6 +1,5 @@
 package com.seventh7.mybatis.util;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
@@ -28,12 +27,7 @@ public final class DomUtils {
     public static <T extends DomElement> Collection<T> findDomElements(@NotNull Project project, Class<T> clazz) {
         GlobalSearchScope scope = GlobalSearchScope.allScope(project);
         List<DomFileElement<T>> elements = DomService.getInstance().getFileElements(clazz, project, scope);
-        return Collections2.transform(elements, new Function<DomFileElement<T>, T>() {
-            @Override
-            public T apply(DomFileElement<T> input) {
-                return input.getRootElement();
-            }
-        });
+        return Collections2.transform(elements, input -> input.getRootElement());
     }
 
     public static boolean isMybatisFile(@Nullable PsiFile file) {

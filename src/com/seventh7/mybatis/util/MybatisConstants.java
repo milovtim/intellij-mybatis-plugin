@@ -5,11 +5,7 @@ import com.intellij.psi.util.ReferenceSetBase;
 /**
  * @author yanglin
  */
-public final class MybatisConstants {
-
-    private MybatisConstants() {
-        throw new UnsupportedOperationException();
-    }
+public abstract class MybatisConstants {
 
     public static final String DOT_SEPARATOR = String.valueOf(ReferenceSetBase.DOT_SEPARATOR);
 

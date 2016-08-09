@@ -18,7 +18,6 @@ import com.seventh7.mybatis.service.JavaService;
 import com.seventh7.mybatis.setting.MybatisSetting;
 import com.seventh7.mybatis.ui.ListSelectionListener;
 import com.seventh7.mybatis.ui.UiComponentFacade;
-import com.seventh7.mybatis.util.CollectionUtils;
 import com.seventh7.mybatis.util.JavaUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -102,7 +101,7 @@ public abstract class StatementGenerator {
                 result.add(generator);
             }
         }
-        return CollectionUtils.isNotEmpty(result) ? result.toArray(new StatementGenerator[result.size()]) : ALL.toArray(new StatementGenerator[ALL.size()]);
+        return !result.isEmpty() ? result.toArray(new StatementGenerator[result.size()]) : ALL.toArray(new StatementGenerator[ALL.size()]);
     }
 
     private Set<String> patterns;

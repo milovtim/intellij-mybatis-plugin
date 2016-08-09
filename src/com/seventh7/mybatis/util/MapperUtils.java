@@ -1,6 +1,7 @@
 package com.seventh7.mybatis.util;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.intellij.ide.fileTemplates.FileTemplate;
 import com.intellij.ide.fileTemplates.FileTemplateManager;
@@ -106,8 +107,8 @@ public final class MapperUtils {
     @NonNls
     public static Optional<Mapper> findFirstMapper(@NotNull Project project, @NotNull String namespace) {
         Collection<Mapper> mappers = findMappers(project, namespace);
-        return CollectionUtils.isEmpty(mappers) ?
-                Optional.<Mapper>absent() :
+        return mappers.isEmpty() ?
+                Optional.absent() :
                 Optional.of(mappers.iterator().next());
     }
 

@@ -19,7 +19,6 @@ import com.seventh7.mybatis.template.MybatisFileTemplateDescriptorFactory;
 import com.seventh7.mybatis.ui.ClickableListener;
 import com.seventh7.mybatis.ui.ListSelectionListener;
 import com.seventh7.mybatis.ui.UiComponentFacade;
-import com.seventh7.mybatis.util.CollectionUtils;
 import com.seventh7.mybatis.util.MapperUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -51,7 +50,7 @@ public class GenerateMapperIntention extends GenericIntention {
         PsiElement element = file.findElementAt(editor.getCaretModel().getOffset());
         PsiClass clazz = PsiTreeUtil.getParentOfType(element, PsiClass.class);
         Collection<PsiDirectory> directories = MapperUtils.findMapperDirectories(project);
-        if (CollectionUtils.isEmpty(directories)) {
+        if (directories.isEmpty()) {
             handleChooseNewFolder(project, editor, clazz);
         } else {
             handleMutilDirectories(project, editor, clazz, directories);
